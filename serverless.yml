@@ -1,0 +1,48 @@
+service: bucklescript-serverless-media-pipeline-demo
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: us-east-1
+  stage: production
+  environment:
+    MEDIA_BUCKET: media-pipeline.lidcore.com
+    SENTRY_DSN: https://some/url
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:PutObject
+      Resource: "arn:aws:s3:::media-pipeline.lidcore.com*"
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "arn:aws:lambda:us-east-1:478746093480:function:encode-file"
+
+plugins:
+  - serverless-offline
+
+#this is actually needed not to include the whole bucklesript toolchain in deployment zip
+package:
+  exclude:
+    - lib/bs/**
+    - node_modules/bs-platform/**
+  include:
+    - node_modules/bs-platform/lib/js/**
+    - lib/js/**
+
+functions:
+  encode-file:
+    name: media-pipeline-encode-file
+    handler: lib/js/src/index.encode_file
+    memorySize: 1536
+    timeout: 300
+
+  queue-encoding:
+    name: media-pipeline-queue-encoding
+    handler: lib/js/src/index.queue_encoding
+    events:
+      - http:
+          path: encodings
+          method: post
+          cors: true
+          integration: lambda-proxy

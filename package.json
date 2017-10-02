@@ -1,0 +1,24 @@
+{
+  "name": "bucklescript-serverless-media-pipeline-demo",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "bsb -make-world",
+    "clean": "bsb -clean-world",
+    "test": "npm run build && jest",
+    "watch": "bsb -make-world -w",
+    "deploy": "serverless deploy"
+  },
+  "keywords": [
+    "BuckleScript"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "bs-jest": "^0.1.0",
+    "serverless": "^1.22.0",
+    "serverless-offline": "^3.16.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.116.0",
+    "bs-platform": "1.9.2"
+  }
+}

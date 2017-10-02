@@ -1,0 +1,17 @@
+{
+  "name": "bucklescript-serverless-media-pipeline-demo",
+  "version": "0.1.0",
+  "sources": [
+    "src/bindings",
+    "src",
+    {
+      "dir": "__tests__",
+      "type": "dev"
+    }
+  ],
+  "package-specs": {
+    "module": "commonjs"
+  },
+  "bs-dependencies" : [],
+  "bs-dev-dependencies": ["bs-jest"]
+}

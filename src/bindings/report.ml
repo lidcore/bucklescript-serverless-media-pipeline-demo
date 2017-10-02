@@ -1,0 +1,3 @@
+(* Stub *)
+let send _ = 
+  ()
