@@ -3,4 +3,4 @@ type t = <
   stdout : Stream.readable
 > Js.t
 
-val exec : string -> t
+val spawn : string -> string array -> t

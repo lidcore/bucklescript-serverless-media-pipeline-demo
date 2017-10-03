@@ -14,7 +14,12 @@ let ffmpeg =
 let cmd = {j|$(ffmpeg) -y -f flac -i - -f mp3 -b:a 128k -|j}
 
 let process data =
-  let process = Child_process.exec cmd in
+  let process =
+    Child_process.spawn ffmpeg [|
+      "-y";"-f";"flac";"-i";"-";
+      "-f";"mp3";"-b:a";"128k";"-"
+    |]
+  in
   Stream.pipe data process##stdin;
   process##stdout
 
