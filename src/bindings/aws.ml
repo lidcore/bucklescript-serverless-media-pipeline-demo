@@ -5,7 +5,7 @@ open Callback
 let region =
   try
     Sys.getenv "AWS_REGION"
-  with Not_found -> ""
+  with Not_found -> "us-east-1"
 
 type create_params = <region:string> Js.t
 let create_params = [%bs.obj{region=region}]

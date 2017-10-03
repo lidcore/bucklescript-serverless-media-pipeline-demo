@@ -1,4 +1,4 @@
-service: bucklescript-serverless-media-pipeline-demo
+service: media-pipeline-demo
 
 provider:
   name: aws
@@ -7,7 +7,6 @@ provider:
   stage: production
   environment:
     MEDIA_BUCKET: media-pipeline.lidcore.com
-    SENTRY_DSN: https://some/url
   iamRoleStatements:
     - Effect: Allow
       Action:

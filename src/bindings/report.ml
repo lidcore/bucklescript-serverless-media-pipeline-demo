@@ -1,3 +1,3 @@
 (* Stub *)
-let send _ = 
-  ()
+let send exn = 
+  Js.log exn

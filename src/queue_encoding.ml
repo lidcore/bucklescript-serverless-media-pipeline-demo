@@ -1,5 +1,4 @@
 open Callback
-open Http_handler
 
 type params = <
   body: string
