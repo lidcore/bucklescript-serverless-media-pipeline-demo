@@ -10,6 +10,7 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
+        - s3:GetObject
         - s3:PutObject
       Resource: "arn:aws:s3:::media-pipeline.lidcore.com*"
     - Effect: Allow
