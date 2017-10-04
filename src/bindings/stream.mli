@@ -5,4 +5,3 @@ type readable = r t
 type writable = w t
 val pipe : readable -> writable -> unit
 val on : 'a t -> string -> ('b -> unit) -> unit
-val read : readable -> string Callback.t
