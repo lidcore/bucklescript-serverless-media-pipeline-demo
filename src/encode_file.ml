@@ -11,8 +11,6 @@ let ffmpeg =
   (* lib/js/src/../../../vendor/ffmpeg *)
   {j|$(dirname)/../../../vendor/ffmpeg|j}
 
-let cmd = {j|$(ffmpeg) -y -f flac -i - -f mp3 -b:a 128k -|j}
-
 let process data =
   let process =
     Child_process.spawn ffmpeg [|
