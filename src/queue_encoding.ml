@@ -14,6 +14,6 @@ let handler payload _ cb =
       Callback.return [%bs.obj { status = "ok" }]
   in
   let cb =
-    Http_handler.wrap cb
+    Api_handler.wrap cb
   in
   process cb [@bs]
