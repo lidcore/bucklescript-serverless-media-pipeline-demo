@@ -1,19 +1,19 @@
-open Callback
+open BsCallback
 
 type params = <
   body: string
 > Js.t
 
 let handler payload _ cb =
-  let parse : string -> Encode_file.params = [%bs.raw{|function (x) {
-    return JSON.parse(x);
-  }|}] in
+  let parse : string -> Encode_file.params = [%raw fun x ->
+    "return JSON.parse(x)"
+  ] in
   let process =
     let params = parse payload##body in
-    Aws.Lambda.invoke ~function_name:"media-pipeline-encode-file" params >> fun [@bs] _ ->
-      Callback.return [%bs.obj { status = "ok" }]
+    Aws.Lambda.invoke ~function_name:"media-pipeline-encode-file" params >| fun _ ->
+      [%bs.obj { status = "ok" }]
   in
   let cb =
     Api_handler.wrap cb
   in
-  process cb [@bs]
+  process cb

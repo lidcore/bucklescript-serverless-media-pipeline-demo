@@ -12,6 +12,8 @@
   "package-specs": {
     "module": "commonjs"
   },
-  "bs-dependencies" : [],
+  "bs-dependencies" : [
+    "bs-callback", "@lidcore/bs-node"
+  ],
   "bs-dev-dependencies": ["bs-jest"]
 }

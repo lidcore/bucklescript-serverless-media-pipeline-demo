@@ -1,4 +1,5 @@
-open Callback
+open BsCallback
+open LidcoreBsNode
 
 type params = <
   source:      string;
@@ -21,15 +22,12 @@ let process data =
   Stream.pipe data process##stdin;
   process##stdout
 
-let handler payload _ cb =
+let handler payload _ =
   (* This is set in serverless config. *)
   let bucket =
     Sys.getenv "MEDIA_BUCKET"
   in
-  let process =
-    Aws.S3.get ~bucket ~key:payload##source >> fun [@bs] readable ->
-      let encoded = process readable in
-      Aws.S3.upload ~bucket ~key:payload##destination encoded >> fun [@bs] _ ->
-        Callback.return ()  
-  in
-  process cb [@bs]
+  Aws.S3.get ~bucket ~key:payload##source >> fun readable ->
+    let encoded = process readable in
+    Aws.S3.upload ~bucket ~key:payload##destination encoded >| fun _ ->
+      ()

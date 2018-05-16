@@ -5,4 +5,4 @@ type response = <
 
 exception Error of response
 
-val wrap : response Callback.callback -> 'a Callback.callback
+val wrap : response BsCallback.callback -> 'a BsCallback.callback

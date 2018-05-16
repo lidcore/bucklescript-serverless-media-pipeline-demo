@@ -4,4 +4,4 @@ type params = <
 > Js.t
 
 val ffmpeg : string
-val handler : params -> unit -> unit Callback.callback -> unit
+val handler : params -> unit -> unit BsCallback.callback -> unit

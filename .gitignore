@@ -26,3 +26,4 @@
 node_modules/
 .*sw*
 .serverless/
+.bsb.lock

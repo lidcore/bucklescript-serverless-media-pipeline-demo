@@ -1,6 +1,5 @@
-open Callback
-
-[%%bs.raw{|var AWS = require("aws-sdk")|}]
+open BsCallback
+open LidcoreBsNode
 
 let region =
   try
@@ -14,7 +13,7 @@ external make_error : string -> exn = "Error" [@@bs.new]
 
 module Lambda = struct
   type t
-  external create : create_params -> t = "AWS.Lambda" [@@bs.new]
+  external create : create_params -> t = "Lambda" [@@bs.module "aws-sdk"] [@@bs.new]
   let lambda = create create_params
 
   type params
@@ -23,22 +22,22 @@ module Lambda = struct
   external set_invocation_type : params -> string -> unit = "InvocationType" [@@bs.set]
   external set_payload : params -> string -> unit = "Payload" [@@bs.set]
 
-  external invoke : t -> params -> unit Callback.callback -> unit = "" [@@bs.send]
-  let invoke ?(invocation_type="Event") ~function_name payload = fun [@bs] cb ->
+  external invoke : t -> params -> unit BsCallback.callback -> unit = "" [@@bs.send]
+  let invoke ?(invocation_type="Event") ~function_name payload =
     match Js.Json.stringifyAny payload with
       | None ->
-         (Callback.fail (make_error "Invalid payload")) cb [@bs]
+         (BsCallback.fail (make_error "Invalid payload"))
       | Some payload ->
          let params = make_params () in
          set_function_name params function_name;
          set_invocation_type params invocation_type;
          set_payload params payload;
-         invoke lambda params cb
+         invoke lambda params
 end
 
 module S3 = struct
   type t
-  external create : create_params -> t = "AWS.S3" [@@bs.new]
+  external create : create_params -> t = "S3" [@@bs.module "aws-sdk"] [@@bs.new]
   let s3 = create create_params
 
   (* Aws capitalized params labels are annoying.. *)
@@ -50,12 +49,11 @@ module S3 = struct
 
   external upload : t -> params -> unit callback -> unit = "" [@@bs.send]
   let upload ~bucket ~key stream =
-    fun [@bs] cb ->
-      let params = make_params () in
-      set_bucket params bucket;
-      set_key params key;
-      set_body params stream;
-      upload s3 params cb
+    let params = make_params () in
+    set_bucket params bucket;
+    set_key params key;
+    set_body params stream;
+    upload s3 params 
 
   type obj
   external get_object : t -> params -> obj = "getObject" [@@bs.send]
@@ -65,5 +63,5 @@ module S3 = struct
     set_bucket params bucket;
     set_key params key;
     let obj = get_object s3 params in
-    Callback.return (create_read_stream obj)
+    BsCallback.return (create_read_stream obj)
 end

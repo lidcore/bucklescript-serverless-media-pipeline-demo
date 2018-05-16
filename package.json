@@ -18,7 +18,9 @@
     "serverless-offline": "^3.16.0"
   },
   "dependencies": {
+    "@lidcore/bs-node": "git+https://github.com/lidcore/bs-node.git",
     "aws-sdk": "^2.116.0",
-    "bs-platform": "1.9.2"
+    "bs-callback": "^1.4.1",
+    "bs-platform": "^3.0.0"
   }
 }
