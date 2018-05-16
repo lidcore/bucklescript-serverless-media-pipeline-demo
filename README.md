@@ -3,7 +3,7 @@ Media Pipeline Demo
 
 This is a sample project to demonstrate the use of BuckleScript and serverless
 to build a Media Processing pipeline using AWS API Gateway and Lambda. It goes
-along with the article posted on Medium here: [INSERT].
+along with the [article posted on Medium](https://medium.com/@romain.beauxis/scalable-and-serverless-media-processing-using-bucklescript-ocaml-and-aws-lambda-api-gateway-4efe39331f33).
 
 Installing
 ----------
